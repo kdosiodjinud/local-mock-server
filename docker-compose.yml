@@ -1,0 +1,37 @@
+version: '3'
+services:
+  prism:
+    build: ./docker/prism
+    volumes:
+      - ./openapi:/app/openapi
+    networks:
+      - mynetwork
+    expose:
+      - "4010"
+    platform: linux/amd64
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - prism
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    networks:
+      - mynetwork
+    platform: linux/amd64
+
+  dnsmasq:
+    image: jpillora/dnsmasq
+    command: ["-A", "/mojeapi.com/127.0.0.1"]
+    networks:
+      - mynetwork
+    ports:
+      - "53:53/udp"
+    platform: linux/amd64
+
+networks:
+  mynetwork:
+    driver: bridge
+

@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: Mock API
+  version: 1.0.0
+servers:
+  - url: http://mojeapi.com
+paths:
+  /example:
+    get:
+      summary: Get Example
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    example: Hello, World!
